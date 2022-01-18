@@ -54,6 +54,10 @@ const PaymentMethodFromStorage = localStorage.getItem("paymentMethod")
   ? JSON.parse(localStorage.getItem("orderInfo"))
   : {}; 
 
+  // const OrderMyListFromStorage = localStorage.getItem("ListMyOrder")
+  // ? JSON.parse(localStorage.getItem("ListMyOrder"))
+  // : []; 
+
 const initialState = {
   cart: {
     cartItems: cartItemFromStorage,
@@ -61,7 +65,8 @@ const initialState = {
     paymentMethod: PaymentMethodFromStorage,
   },
   userLogin: { userInfo: userInfoFromStorage },
-  orderCreate:{order: OrderMethodFromStorage}
+  orderCreate:{order: OrderMethodFromStorage},
+ 
 };
 
 const middleware = [thunk];

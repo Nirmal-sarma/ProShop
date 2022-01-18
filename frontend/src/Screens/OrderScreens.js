@@ -22,7 +22,7 @@ const OrderScreens = ({ match }) => {
   const orderId = match.params.id;
 
   const dispatch = useDispatch();
-const [sdkReady, setSdkReady] = useState(false)
+  const [sdkReady, setSdkReady] = useState(false)
   const orderDetails = useSelector((state) => state.orderDetails);
   const { loading, order, error } = orderDetails;
   
@@ -168,7 +168,7 @@ dispatch(payOrder(orderId,paymentResult));
               </ListGroupItem>
               {!order.isPaid && (
                 <ListGroupItem>
-                  {loadingPay && <Loader/>}
+                  {/* {loadingPay && <Loader/>} */}
                   {!sdkReady ? <Loader/> : (
                     <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler}/>
                   )}

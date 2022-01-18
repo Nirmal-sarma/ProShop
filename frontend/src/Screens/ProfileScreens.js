@@ -36,22 +36,21 @@ const ProfileScreens = ({ location, history }) => {
   const { success } = userUpdateProfile;
 
   const orderListMy = useSelector((state) => state.orderListMy);
-  const { error: errorOrders, orders } = orderListMy;
-  console.log(orders);
+  const { loading:loadingOrder,error: errorOrders, orders } = orderListMy;
+  
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
     } else {
       if (!user.name) {
         dispatch(getUserDetails("profile"));
-        dispatch(ListMyOrder());
-        // dispatch(ListMyOrder());
+        dispatch(ListMyOrder()); 
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [history, redirect, userInfo, user, dispatch]);
+  }, [history, redirect,dispatch, userInfo, user]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -65,7 +64,7 @@ const ProfileScreens = ({ location, history }) => {
 
   return (
     <Row>
-      <Col md={5} lg={4}>
+      <Col >
         <FormContainer>
           {success && <Message variant="success">Profile Update</Message>}
           {message && <Message variant="danger">{message}</Message>}
@@ -115,9 +114,9 @@ const ProfileScreens = ({ location, history }) => {
           </Form>
         </FormContainer>
       </Col>
-      <Col md={7} lg={8}>
+      <Col md={7.5}>
         <h2>My order</h2>
-        {loading ? (
+        {loadingOrder ? (
           <Loader />
         ) : errorOrders ? (
           <Message variant="danger">{errorOrders}</Message>
