@@ -11,7 +11,7 @@ import {
   ListGroupItem,
   FormControl,
 } from "react-bootstrap";
-import { useDispatach, useDispatch, useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import Message from "../component/Message.js";
 import Loader from "../component/Loader.js";
 import { addToCart,removeFromCart } from "../action/cartAction";
