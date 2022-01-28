@@ -36,18 +36,19 @@ const ProfileScreens = ({ location, history }) => {
   const { success } = userUpdateProfile;
 
   const orderListMy = useSelector((state) => state.orderListMy);
-  const { loading:loadingOrder,error: errorOrders, orders } = orderListMy;
+  const { loading:loadingOrder,error: errorOrders, orders:orderslist} = orderListMy;
   
   useEffect(() => {
+    
     if (!userInfo) {
       history.push("/login");
     } else {
-      if (!user.name) {
+      if (!userInfo.name) {
         dispatch(getUserDetails("profile"));
         dispatch(ListMyOrder()); 
       } else {
-        setName(user.name);
-        setEmail(user.email);
+        setName(userInfo.name);
+        setEmail(userInfo.email);
       }
     }
   }, [history, redirect,dispatch, userInfo, user]);
@@ -58,7 +59,7 @@ const ProfileScreens = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage("Password do not match");
     } else {
-      dispatch(UpdateUserProfile({ id: user._id, name, email, password }));
+      dispatch(UpdateUserProfile({ id: userInfo._id, name, email, password }));
     }
   };
 
@@ -133,7 +134,7 @@ const ProfileScreens = ({ location, history }) => {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {orderslist.map((order) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>

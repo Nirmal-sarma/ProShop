@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../component/Loader.js";
 import Message from "../component/Message.js";
 
-import { listUsers } from "../action/userAction.js";
+import { listUsers,deleteUsers } from "../action/userAction.js";
 
 const UserListScreens = ({ history }) => {
   const dispatch = useDispatch();
@@ -15,6 +15,9 @@ const UserListScreens = ({ history }) => {
   
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success:successDelete } = userDelete;
   
   useEffect(() => {
     if(userInfo && userInfo.isAdmin){
@@ -22,11 +25,15 @@ const UserListScreens = ({ history }) => {
     }else{
       history.push('/');
     }
-  }, [dispatch,userInfo,history]);
+  }, [dispatch,userInfo,history,successDelete]);
 
  const deleteHandler=(id) => {
-    console.log('Delete');
-  }
+   if(window.confirm('Are you sure')){
+
+     dispatch(deleteUsers(id));
+     window.alert('User deleted Successfully');
+   }
+ }
 
 return (
     <>
@@ -60,9 +67,10 @@ return (
                   ) : (
                     <i className="fas fa-times" style={{ color: "red" }}></i>
                   )}
+                  
                 </td>
                 <td>
-                  <LinkContainer to={`/user/${user._id}`}>
+                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
                     <Button variant="light" className="btn-sm">
                       <i className="fas fa-edit"></i>
                     </Button>

@@ -4,6 +4,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productReducer,
   productDetailReducer,
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer
 } from "./Reducer/productReducer.js";
 import { cartReducer } from "./Reducer/cartReducer.js";
 import {
@@ -11,29 +14,40 @@ import {
   userRegisterReducer,
   userDetailReducer,
   userUpdateProfileReducer,
-  userListReducer
+  userListReducer,
+  userDeleteReducer,
+  userUpdateReducer
 } from "./Reducer/userReducers.js";
 
 import {
   OrderCreateReducer,
   OrderDetailsReducer,
   OrderPayReducer,
-  OrderListMyReducer
+  OrderListMyReducer,
+  OrderListAdminReducer,
+  OrderDeliveredReducer
 } from "./Reducer/orderReducers.js";
 
 const reducer = combineReducers({
   productList: productReducer,
   productDetails: productDetailReducer,
+  productDelete:productDeleteReducer,
+  productCreate:productCreateReducer,
+  productUpdate:productUpdateReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailReducer,
   userUpdateProfile: userUpdateProfileReducer,
   userList:userListReducer,
+  userDelete:userDeleteReducer,
+  userUpdate:userUpdateReducer,
   orderCreate: OrderCreateReducer,
   orderDetails: OrderDetailsReducer,
   orderPay:OrderPayReducer,
   orderListMy:OrderListMyReducer,
+  orderList:OrderListAdminReducer,
+  orderDelivered:OrderDeliveredReducer
 });
 
 const cartItemFromStorage = localStorage.getItem("cartItems")
@@ -52,14 +66,20 @@ const PaymentMethodFromStorage = localStorage.getItem("paymentMethod")
   ? JSON.parse(localStorage.getItem("paymentMethod"))
   : null;
 
-  const OrderMethodFromStorage = localStorage.getItem("orderInfo")
+const OrderMethodFromStorage = localStorage.getItem("orderInfo")
   ? JSON.parse(localStorage.getItem("orderInfo"))
   : {}; 
 
-  const UserListFromStorage = localStorage.getItem("userList")
+const UserListFromStorage = localStorage.getItem("userList")
   ? JSON.parse(localStorage.getItem("userList"))
   : []; 
 
+  const UserUpdateAdminFromStorage = localStorage.getItem("updateUserAdmin")
+  ? JSON.parse(localStorage.getItem("updateUserAdmin"))
+  : []; 
+
+  
+  
 const initialState = {
   cart: {
     cartItems: cartItemFromStorage,
@@ -68,7 +88,9 @@ const initialState = {
   },
   userLogin: { userInfo: userInfoFromStorage },
   orderCreate:{order: OrderMethodFromStorage},
-  userList:{users:UserListFromStorage}
+  userList:{users:UserListFromStorage},
+  // userDetails:{user: UserUpdateAdminFromStorage},
+  
 };
 
 const middleware = [thunk];

@@ -14,9 +14,9 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 import Message from "../component/Message.js";
-import { getOrderDetails,payOrder } from "../action/orderAction.js";
+import { getOrderDetails,payOrder,DeliverOrder } from "../action/orderAction.js";
 import Loader from "../component/Loader.js";
-import { ORDER_PAY_RESET } from '../constant/OrderConstants.js';
+import { ORDER_PAY_RESET,ORDER_DELIVERED_RESET } from '../constant/OrderConstants.js';
 
 const OrderScreens = ({ match }) => {
   const orderId = match.params.id;
@@ -28,6 +28,12 @@ const OrderScreens = ({ match }) => {
   
   const orderPay = useSelector((state) => state.orderPay);
   const { loading:loadingPay,success:successPay } = orderPay;
+
+  const orderDelivered = useSelector((state) => state.orderDelivered);
+  const { loading:loadingDeliver,success:successDeliver } = orderDelivered;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
     const addPayPalScript= async()=>{
@@ -42,8 +48,9 @@ const OrderScreens = ({ match }) => {
        document.body.appendChild(script);
     }
   
-   if(!order || successPay || order._id !== orderId ){
-      dispatch({type:ORDER_PAY_RESET})
+   if(!order || successPay || order._id !== orderId || successDeliver){
+      dispatch({ type:ORDER_PAY_RESET })
+      dispatch({ type:ORDER_DELIVERED_RESET })
       dispatch(getOrderDetails(orderId));
    }else if(!order.isPaid){
       if(!window.paypal){
@@ -52,11 +59,15 @@ const OrderScreens = ({ match }) => {
         setSdkReady(true)
       }
     }
-  }, [order,orderId,successPay]);
+  }, [order,orderId,successPay,successDeliver]);
 
 const successPaymentHandler=(paymentResult)=>{
 console.log(paymentResult)
 dispatch(payOrder(orderId,paymentResult));
+}
+
+const deliveredHandler=()=>{
+dispatch(DeliverOrder(order));
 }
 
   return loading ? (
@@ -174,6 +185,14 @@ dispatch(payOrder(orderId,paymentResult));
                   )}
                 </ListGroupItem>
               )}
+              {loadingDeliver && <Loader/>}
+              {/* {userInfo.isAdmin && !order.isDelivered && (
+                <ListGroupItem>
+                  <Button type="button" className="btn btn-block" onClick={deliveredHandler}>
+                    Mark As Delivered
+                  </Button>
+                </ListGroupItem>
+              )} */}
             </ListGroup>
           </Card>
         </Col>

@@ -17,7 +17,7 @@ const ProductSchema = mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+     
       ref: "User",
     },
     image: {
@@ -47,7 +47,7 @@ const ProductSchema = mongoose.Schema(
     },
     numReviews: {
       type: Number,
-      required: true,
+      
     },
     price: {
       type:Number,

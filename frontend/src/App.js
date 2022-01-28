@@ -14,6 +14,11 @@ import PaymentScreens from "./Screens/PaymentScreens";
 import PlaceorderScreens from "./Screens/PlaceorderScreens";
 import OrderScreens from "./Screens/OrderScreens";
 import UserListScreens from "./Screens/UserListScreens.js";
+import UserEditScreens from "./Screens/UserEditScreens.js";
+import ProductListScreens from "./Screens/ProductListScreens";
+import ProductEditScreens from "./Screens/ProductEditScreens";
+import OrderListScreens from "./Screens/OrderListScreens.js";
+
 
 function App() {
   return (
@@ -28,10 +33,16 @@ function App() {
           <Route path="/login" component={LoginScreens} exact />
           <Route path="/" component={HomeScreens} exact />
           <Route path="/admin/userlist" component={UserListScreens}  exact />
+          <Route path="/admin/productlist" component={ProductListScreens}  exact />
+          <Route path="/admin/orderlist" component={OrderListScreens}  exact />
+
           <Route path="/product/:id" component={ProductScreens} exact />
           <Route path="/profile" component={ProfileScreens} exact />
+          <Route path="/admin/user/:id/edit" component={UserEditScreens} exact />
+          <Route path="/admin/product/:id/edit" component={ProductEditScreens} exact />
           <Route path="/cart/:id?" component={CartScreen} exact />
           <Route path="/register" component={RegisterScreens} exact />
+
         </Container>
       </main>
       <Footer />

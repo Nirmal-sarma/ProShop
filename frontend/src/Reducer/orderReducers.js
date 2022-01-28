@@ -13,6 +13,14 @@ import {
   ORDER_LIST_MY_SUCCESS,
   ORDER_LIST_MY_FAIL,
   ORDER_LIST_MY_RESET,
+  ORDER_LIST_ADMIN_REQUEST,
+  ORDER_LIST_ADMIN_SUCCESS,
+  ORDER_LIST_ADMIN_FAIL,
+  ORDER_LIST_ADMIN_RESET,
+  ORDER_DELIVERED_REQUEST,
+  ORDER_DELIVERED_SUCCESS,
+  ORDER_DELIVERED_FAIL,
+  ORDER_DELIVERED_RESET,
 } from "../constant/OrderConstants.js";
 
 export const OrderCreateReducer = (state = {}, action) => {
@@ -111,6 +119,56 @@ export const OrderListMyReducer = (state = { orders:[] }, action) => {
     case ORDER_LIST_MY_RESET:
       return { orders:[] };
 
+    default:
+      return state;
+      break;
+  }
+};
+
+export const OrderListAdminReducer = (state = { ordersAdmin:[] }, action) => {
+  switch (action.type) {
+    case ORDER_LIST_ADMIN_REQUEST:
+      return {
+        loading: true,
+      };
+    case ORDER_LIST_ADMIN_SUCCESS:
+      return {
+        ordersAdmin:action.payload,
+        loading: false,
+      };
+    case ORDER_LIST_ADMIN_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case ORDER_LIST_ADMIN_RESET:
+      return { ordersAdmin:[] };
+
+    default:
+      return state;
+      break;
+  }
+};
+
+export const OrderDeliveredReducer = (state = { }, action) => {
+  switch (action.type) {
+    case ORDER_DELIVERED_REQUEST:
+      return {
+        loading: true,
+      };
+    case ORDER_DELIVERED_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case ORDER_DELIVERED_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case ORDER_DELIVERED_RESET:
+      return {};
     default:
       return state;
       break;
