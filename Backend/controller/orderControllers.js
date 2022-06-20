@@ -94,12 +94,12 @@ const UpdateOrderToDelivered = expressAsyncHandler(async (req, res) => {
 //@description update order to paid
 //@route GET api/orders
 //@access private/Admin
-const  getMyOrder= expressAsyncHandler(async (req, res) => {
+const getMyOrder= expressAsyncHandler(async (req, res) => {
   const orders=await Order.find({user:req.user._id})
   res.json(orders);
 });
 
-const  getOrder= expressAsyncHandler(async (req, res) => {
+const getOrder= expressAsyncHandler(async (req, res) => {
   const orders=await Order.find({}).populate('user','id name');
   res.json(orders);
 });

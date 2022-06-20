@@ -1,12 +1,11 @@
 import mongoose  from "mongoose";
 import bcrypt from 'bcryptjs';
-const userSchema=mongoose.Schema({
-
+const userSchema=mongoose.Schema({      
     name:{
         type:String,
         required:true
     },
-   email:{
+    email:{
         type:String,
         required:true,
         unique:true
@@ -15,7 +14,7 @@ const userSchema=mongoose.Schema({
         type:String,
         required:true
     },
-   isAdmin:{
+    isAdmin:{
         type:Boolean,
         required:true,
         default:false

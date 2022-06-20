@@ -26,7 +26,7 @@ function CartScreen({ match, location, history }) {
   const { cartItems } = cart;
 
   useEffect(() => {
-    if (productsId) {
+    if (productsId){
       dispatch(addToCart(productsId, qty));
     }
   }, [dispatch, productsId, qty]);

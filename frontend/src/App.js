@@ -20,7 +20,7 @@ import ProductEditScreens from "./Screens/ProductEditScreens";
 import OrderListScreens from "./Screens/OrderListScreens.js";
 
 
-function App() {
+function App(){
   return (
     <Router>
       <Header />
@@ -31,19 +31,23 @@ function App() {
           <Route path="/order/:id" component={OrderScreens} exact />
           <Route path="/shipping" component={ShippingScreens} exact />
           <Route path="/login" component={LoginScreens} exact />
-          <Route path="/" component={HomeScreens} exact />
           <Route path="/admin/userlist" component={UserListScreens}  exact />
-          <Route path="/admin/productlist" component={ProductListScreens}  exact />
+          <Route path="/admin/productlist" component={ProductListScreens} exact/>
+          <Route path="/admin/productlist/:pageNumber" component={ProductListScreens}  exact />
           <Route path="/admin/orderlist" component={OrderListScreens}  exact />
-
           <Route path="/product/:id" component={ProductScreens} exact />
           <Route path="/profile" component={ProfileScreens} exact />
           <Route path="/admin/user/:id/edit" component={UserEditScreens} exact />
           <Route path="/admin/product/:id/edit" component={ProductEditScreens} exact />
           <Route path="/cart/:id?" component={CartScreen} exact />
           <Route path="/register" component={RegisterScreens} exact />
+          <Route path="/search/:keyword" component={HomeScreens} exact/>
+          <Route path="/search/:keyword/page/:pageNumber" component={HomeScreens} exact/>
+          <Route path="/page/:pageNumber" component={HomeScreens} exact/>
+          <Route path="/" component={HomeScreens} exact />
 
-        </Container>
+
+      </Container>
       </main>
       <Footer />
     </Router>

@@ -1,17 +1,16 @@
 import React from "react";
+import { Route} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar,NavDropdown} from "react-bootstrap";
 import { Logout } from "../action/userAction";
+import SearchBox from "./SearchBox";
 
-const Header = ({history}) => {
+const Header = () => {
   const dispatch=useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-const ProfileHandler=()=>{
-history.push('/profile');
-}
 const LogoutHandler=()=>{
   dispatch(Logout);
 }
@@ -25,6 +24,8 @@ const LogoutHandler=()=>{
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+           <Route render={({ history })=><SearchBox history={history}/>}/>
+           {/* <SearchBox history={history}/> */}
             <Nav className="ml-auto">
               <LinkContainer to="/Cart">
                 <Nav.Link>
@@ -35,7 +36,7 @@ const LogoutHandler=()=>{
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id="username">
                   <LinkContainer to="/profile">
-                    <NavDropdown.Item onClick={ProfileHandler}>
+                    <NavDropdown.Item>
                       Profile
                     </NavDropdown.Item>
                   </LinkContainer>

@@ -5,10 +5,17 @@ import Product from '../Models/productModel.js';
 // @route GET api/products
 //@ access Public
 const getProduct=expressAsyncHandler(async(req,res)=>{
-    const products=await Product.find();
+    const pageSize=4;
+    const page=Number(req.query.pageNumber) || 1;
+    const keyword=req.query.keyword ? {
+       name:new RegExp(req.query.keyword, 'i')
+    }:{}
+    const count =await Product.count({ ...keyword });
+    const products=await Product.find({...keyword}).limit(pageSize).skip(pageSize*(page-1));
     
-    res.json(products);
+    res.json({products,page,pages: Math.ceil(count/pageSize)});
 })
+
 //Fetch all product with its id
 
 const getProductById=expressAsyncHandler(async(req,res)=>{
@@ -83,7 +90,48 @@ const UpdateProduct=expressAsyncHandler(async(req,res)=>{
         res.status(404);
         throw new Error('Product not found'); 
     }
-
-    
 })
-export {getProduct,getProductById,deleteProductById,UpdateProduct,createProduct};
+
+// @ description update a product
+// @route POST api/products/:id/reviews
+//@ access private
+const ReviewProduct=expressAsyncHandler(async(req,res)=>{
+    const {rating,comment}=req.body;
+    const product =await Product.findById(req.params.id);
+    
+    if(product){ 
+
+        const alreadyReview=product.reviews.find(r => r.user.toString() === req.user._id.toString())
+        
+        if(alreadyReview){
+            res.status(400);
+            throw new Error('Product already reviewed');
+        }
+
+        const review={
+            name:req.user.name,
+            rating:Number(rating),
+            comment,
+            user:req.user._id
+        }
+
+        product.reviews.push(review)
+        product.numReviews=product.reviews.length
+        product.rating=product.reviews.reduce((acc,item)=> item.rating+acc,0)/(product.reviews.length);
+        await product.save()
+       res.status(201).json({message:"Review added"})
+    
+    }else{
+        res.status(404);
+        throw new Error('Product not found'); 
+    }
+})
+// @ description update a product
+// @route get /
+//@ access public
+const getTopProducts=expressAsyncHandler(async(req,res)=>{
+    const products=await Product.find({}).sort({rating: -1}).limit(3);
+    res.json(products);
+})
+
+export {getProduct,getProductById,deleteProductById,UpdateProduct,createProduct,ReviewProduct,getTopProducts};

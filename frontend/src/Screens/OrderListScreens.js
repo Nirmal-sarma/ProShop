@@ -25,7 +25,7 @@ const OrderListScreens = ({ history }) => {
     }
   }, [dispatch,userInfo,history]);
  
-console.log(ordersAdmin);
+
 return (
     <>
       <h1>Orders</h1>

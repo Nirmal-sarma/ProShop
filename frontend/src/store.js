@@ -6,7 +6,9 @@ import {
   productDetailReducer,
   productDeleteReducer,
   productCreateReducer,
-  productUpdateReducer
+  productUpdateReducer,
+  productReviewReducer,
+  productTopReducer
 } from "./Reducer/productReducer.js";
 import { cartReducer } from "./Reducer/cartReducer.js";
 import {
@@ -34,6 +36,8 @@ const reducer = combineReducers({
   productDelete:productDeleteReducer,
   productCreate:productCreateReducer,
   productUpdate:productUpdateReducer,
+  productReviews:productReviewReducer,
+  productTopRated:productTopReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -74,9 +78,9 @@ const UserListFromStorage = localStorage.getItem("userList")
   ? JSON.parse(localStorage.getItem("userList"))
   : []; 
 
-  const UserUpdateAdminFromStorage = localStorage.getItem("updateUserAdmin")
-  ? JSON.parse(localStorage.getItem("updateUserAdmin"))
-  : []; 
+  // const UserUpdateAdminFromStorage = localStorage.getItem("updateUserAdmin")
+  // ? JSON.parse(localStorage.getItem("updateUserAdmin"))
+  // : []; 
 
   
   

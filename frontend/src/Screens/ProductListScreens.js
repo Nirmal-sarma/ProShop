@@ -5,14 +5,16 @@ import { Table, Button,Row,Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../component/Loader.js";
 import Message from "../component/Message.js";
+import Paginate from "../component/Paginate.js";
 
 import { listProducts,deleteProduct, createProduct } from "../action/productAction.js";
 import { PRODUCT_CREATE_RESET } from "../constant/productConstant.js";
 
 const ProductListScreens = ({ history,match }) => {
  const dispatch = useDispatch();
+ const pageNumber=match.params.pageNumber || 1;
  const productList = useSelector((state) => state.productList);
- const { loading, error, products } = productList;
+ const { loading, error, products,pages,page } = productList;
 
  const productDelete=useSelector((state) => state.productDelete);
  const { loading:loadingDelete, error:errorDelete, success:successDelete}=productDelete;
@@ -30,12 +32,13 @@ const ProductListScreens = ({ history,match }) => {
     if(!userInfo.isAdmin){
       history.push('/login');
     }
+
     if(successCreate){
         history.push(`/admin/product/${CreateProduct._id}/edit`)
     }else{
-        dispatch(listProducts);
+        dispatch(listProducts('',pageNumber));
     }
-  }, [dispatch,userInfo,history,successDelete,successCreate,CreateProduct]);
+  }, [dispatch,userInfo,history,successDelete,successCreate,CreateProduct,pageNumber]);
 
 const deleteHandler=(id) => {
    if(window.confirm('Are you sure')){
@@ -44,11 +47,12 @@ const deleteHandler=(id) => {
 }
 
 const createProductHandler=()=>{
-dispatch(createProduct())
+dispatch(createProduct());
+history.push('/admin/productlist');
 }
 
 return (
-    <>
+  <>
     <Row className="align-items-center">
         <Col>
         <h1>Products</h1>
@@ -66,6 +70,7 @@ return (
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
+    <>
         <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
@@ -107,8 +112,10 @@ return (
             ))}
           </tbody>
         </Table>
-      )}
+       <Paginate pages={pages} page={page} isAdmin={true}/>
     </>
+       )}
+  </>
   );
 };
 
