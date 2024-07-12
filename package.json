@@ -11,13 +11,12 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node Backend/seeder",
     "data:destroy": "node Backend/seeder -d",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "caniuse-lite": "^1.0.30001356",
     "colors": "^1.4.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
